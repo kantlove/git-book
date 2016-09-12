@@ -1,2 +1,2 @@
-export declare class Entity {
+export declare abstract class Entity {
 }

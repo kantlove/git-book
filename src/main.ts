@@ -1,18 +1,17 @@
-var express = require("express");
-var app = express();
+var fs = require("fs-extra");
 var hbs = require("handlebars");
 
-const runPort = 2016;
+const outPath = __dirname + "/../../docs/";
+const outFile = "index.html";
 
 let source = "<h1>hello world</h1>";
 let template = hbs.compile(source);
 let data = { "name": "Alan"};
 let html = template(data);
 
-app.get("/", function(req: any, res: any) {
-  res.send(html);
-});
-
-app.listen(runPort, function() {
-  console.log(`Listening on port ${runPort}`);
+fs.outputFile(outPath + outFile, html, (err) => {
+  if (err) {
+    return console.error(err);
+  }
+  console.log(`File written to ${outPath + outFile}`);
 });

@@ -1,6 +1,7 @@
 "use strict";
 
 var gulp         = require('gulp');
+var gulpSequence = require('gulp-sequence')
 var tslint       = require('gulp-tslint');
 var exec         = require('child_process').exec;
 var mocha        = require('gulp-mocha');
@@ -46,9 +47,10 @@ gulp.task('lint', 'Lints all', ['lint-src', 'lint-css'], function() {
 });
 
 gulp.task('build-src', 'Compiles all TypeScript source files', ['lint'], function (cb) {
-  console.log("Compiling source...");
   return exec('tsc', function (err, stdout, stderr) {
-    console.log(stdout);
+    if(stdout) {
+      console.log(stdout);
+    }
     if (stderr) {
       console.log(stderr);
     }
@@ -57,15 +59,14 @@ gulp.task('build-src', 'Compiles all TypeScript source files', ['lint'], functio
 });
 
 gulp.task('build-css', 'Compiles all Sass files', ['lint'], function (cb) {
-  console.log("Compiling Sass...");
   return gulp.src(cssFilesGlob)
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(cssOutput));
 });
 
-gulp.task('build', 'Compiles all', ['clean', 'build-src', 'build-css'], function () {
+gulp.task('build', 'Compiles all', function (cb) {
   // Merge 2 builds
-  console.log("Build complete.")
+  gulpSequence('clean', ['build-src', 'build-css'])(cb);
 });
 
 gulp.task('test', 'Runs the Jasmine test specs', ['build'], function () {

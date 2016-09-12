@@ -1,15 +1,16 @@
-var express = require("express");
-var app = express();
+var fs = require("fs-extra");
 var hbs = require("handlebars");
-var runPort = 2016;
+var outPath = __dirname + "/../../docs/";
+var outFile = "index.html";
 var source = "<h1>hello world</h1>";
 var template = hbs.compile(source);
 var data = { "name": "Alan" };
 var html = template(data);
-app.get("/", function (req, res) {
-    res.send(html);
-});
-app.listen(runPort, function () {
-    console.log("Listening on port " + runPort);
+fs.outputFile(outPath + outFile, html, function (err) {
+    if (err) {
+        return console.error(err);
+    }
+    console.log("File written to " + (outPath + outFile));
+    console.log("Success!");
 });
 //# sourceMappingURL=main.js.map
