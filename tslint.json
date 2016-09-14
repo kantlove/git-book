@@ -7,6 +7,8 @@
     "no-reference": false,
     "no-var-requires": false,
     "no-var-keyword": false,
-    "no-console": [false]
+    "no-console": [false],
+    "one-line": [true, "check-open-brace", "check-whitespace"],
+    "member-ordering": [false]
   }
 }

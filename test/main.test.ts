@@ -2,6 +2,6 @@
 
 // describe("test", () => {
 //   it("first test", () => {
-//     assert(true);
+//     assert([].length === 1);
 //   });
 // });

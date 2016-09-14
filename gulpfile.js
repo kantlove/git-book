@@ -69,10 +69,12 @@ gulp.task('build', 'Compiles all', function (cb) {
   gulpSequence('clean', ['build-src', 'build-css'])(cb);
 });
 
-gulp.task('test', 'Runs the Jasmine test specs', ['build'], function () {
-  return gulp.src('**/*.test.ts')
+gulp.task('test', 'Runs tests', ['build'], function (cb) {
+  return gulp.src('out/**/*.test.js')
     .pipe(mocha({
-      require: ['ts-node/register']
+      require: [
+        'intelli-espower-loader'
+        ]
     }));
 });
 

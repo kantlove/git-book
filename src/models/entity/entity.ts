@@ -1,4 +1,8 @@
 export abstract class Entity {
+  public static fromObject(obj: any): Entity {
+    throw "fromObject must be overriden";
+  }
+
   protected id: string;
 
   public getId(): string {

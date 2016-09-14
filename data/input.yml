@@ -1,0 +1,23 @@
+type: section
+title: Intro
+children:
+  -
+    type: entry
+    title: first entry
+    desc:
+      -
+        type: desc
+        text: normal description
+        style: normal
+      -
+        type: desc
+        text: comment
+        style: weak
+  -
+    type: entry
+    title: second entry
+    desc:
+      -
+        type: desc
+        text: bold text
+        style: strong

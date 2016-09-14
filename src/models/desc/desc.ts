@@ -7,7 +7,15 @@ export class Desc extends Entity {
   constructor(text: string, style: TextStyle) {
     super();
     this.text = text;
-    this.style = style;
+    this.style = style ? style : TextStyle.Normal;
+  }
+
+  public getText(): string {
+    return this.text;
+  }
+
+  public getStyle(): TextStyle {
+    return this.style;
   }
 
   public getHtmlClass(): string {
@@ -20,6 +28,13 @@ export class Desc extends Entity {
         <p>${this.text}</p>
       </div>
     `;
+  }
+
+  public static fromObject(obj: any): Desc {
+    if (!obj.text) {
+      throw new Error("A description must have <text>");
+    }
+    return new Desc(obj.text, TextStyle.fromString(obj.style));
   }
 }
 
@@ -34,7 +49,15 @@ export class TextStyle {
     this.name = name;
   }
 
-  public toString(): string {
+  public getHtmlClass(): string {
     return this.name;
+  }
+
+  public static fromString(str: string): TextStyle {
+    switch (str) {
+      case "weak": return TextStyle.Weak;
+      case "strong": return TextStyle.Strong;
+      default: return TextStyle.Normal;
+    }
   }
 }
