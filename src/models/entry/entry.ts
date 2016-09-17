@@ -1,13 +1,12 @@
 import { TypeHelper } from "../../helpers/_index";
-import { Desc } from "../desc/desc";
-import { Entity } from "../entity/entity";
+import { Desc, Entity, ImageDesc, TextDesc} from "../_index";
 
 export class Entry extends Entity {
   private title: string;
   private description: Desc[];
-  private children: Entity[];
+  private children: Entry[];
 
-  constructor(title: string, description: Desc[], children: Entity[]) {
+  constructor(title: string, description: Desc[], children: Entry[]) {
     super();
     this.title = title;
     this.description = description ? description : [];
@@ -22,7 +21,7 @@ export class Entry extends Entity {
     return this.description;
   }
 
-  public getChildren(): Entity[] {
+  public getChildren(): Entry[] {
     return this.children;
   }
 
@@ -57,7 +56,7 @@ export class Entry extends Entity {
     let allDesc = [];
     if (obj.desc && TypeHelper.isArray(obj.desc)) {
       for (let desc of obj.desc) {
-        allDesc.push(Desc.fromObject(desc));
+        allDesc.push(Entry.descFromObject(desc));
       }
     }
 
@@ -68,5 +67,19 @@ export class Entry extends Entity {
       }
     }
     return new Entry(obj.title, allDesc, children);
+  }
+
+  private static descFromObject(obj: any): Desc {
+    try {
+      try {
+        return TextDesc.fromObject(obj);
+      }
+      catch (innerErr) {
+        return ImageDesc.fromObject(obj);
+      }
+    }
+    catch (e) {
+      throw e;
+    }
   }
 }

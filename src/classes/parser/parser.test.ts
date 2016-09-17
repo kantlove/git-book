@@ -1,12 +1,11 @@
-import { Entry, Section, TextStyle } from "../../models/_index";
+import { Entry, TextDesc } from "../../models/_index";
 import { InputReader } from "../input-reader/input-reader";
 import { Parser } from "./parser";
 var assert = require("power-assert");
 
 describe("Parser", function () {
-  it("1 section", function(done) {
+  it("1 entry", function(done) {
     let input = `
-      type: section
       title: section 1
     `;
     InputReader.readText(input).then(
@@ -14,14 +13,14 @@ describe("Parser", function () {
         let root = Parser.parse(obj);
         let children = root.getChildren();
         assert(children.length === 1);
-        assert(children[0] instanceof Section);
+        assert(children[0] instanceof Entry);
         done();
       }).catch((err) => {
         done(err);
       });
   });
 
-  it("2 sections", function (done) {
+  it("2 entries", function (done) {
     let input = `
       -
         type: section
@@ -36,7 +35,7 @@ describe("Parser", function () {
         let children = root.getChildren();
         assert(children.length === 2);
         for (let child of children) {
-          assert(child instanceof Section);
+          assert(child instanceof Entry);
         }
         done();
       }).catch((err) => {
@@ -44,14 +43,12 @@ describe("Parser", function () {
       });
   });
 
-  it("1 sections, 1 entry", function (done) {
+  it("1 entry, 1 child entry", function (done) {
     let input = `
       -
-        type: section
         title: section 1
         children:
           -
-            type: entry
             title: 1st entry
     `;
     InputReader.readText(input).then(
@@ -59,9 +56,9 @@ describe("Parser", function () {
         let root = Parser.parse(obj);
         let children = root.getChildren();
         assert(children.length === 1);
-        assert(children[0] instanceof Section);
+        assert(children[0] instanceof Entry);
 
-        let sect = children[0] as Section;
+        let sect = children[0] as Entry;
         let sectChildren = sect.getChildren();
         assert(sect.getTitle() === "section 1");
         assert(sectChildren.length === 1);
@@ -76,14 +73,12 @@ describe("Parser", function () {
       });
   });
 
-  it("1 sections, 1 entry, 2 desc", function (done) {
+  it("1 entry, 1 child entry, 2 desc", function (done) {
     let input = `
       -
-        type: section
         title: section 1
         children:
           -
-            type: entry
             title: 1st entry
             desc:
               -
@@ -98,9 +93,9 @@ describe("Parser", function () {
         let root = Parser.parse(obj);
         let children = root.getChildren();
         assert(children.length === 1);
-        assert(children[0] instanceof Section);
+        assert(children[0] instanceof Entry);
 
-        let sect = children[0] as Section;
+        let sect = children[0] as Entry;
         let sectChildren = sect.getChildren();
         assert(sect.getTitle() === "section 1");
         assert(sectChildren.length === 1);
@@ -111,8 +106,39 @@ describe("Parser", function () {
 
         let desc = entry.getDescription();
         assert(desc.length === 2);
-        assert(desc[0].getStyle() === TextStyle.Normal);
-        assert(desc[1].getStyle() === TextStyle.Weak);
+        assert(desc[0] instanceof TextDesc);
+        assert(desc[1] instanceof TextDesc);
+
+        done();
+      }).catch((err) => {
+        done(err);
+      });
+  });
+
+  it("1 entry ∋ 1 entry ∋ 1 entry ", function (done) {
+    let input = `
+      -
+        title: entry 1
+        children:
+          -
+            title: entry 1.1
+            children:
+              -
+                title: entry 1.1.1
+    `;
+    InputReader.readText(input).then(
+      (obj: any) => {
+        let root = Parser.parse(obj);
+        type HasChildren = {
+          getChildren(): any[];
+        }
+        let hasChildren: HasChildren = root;
+        for (let i = 0; i < 3; ++i) {
+          let children = hasChildren.getChildren();
+          assert(children.length === 1);
+          assert(children[0] instanceof Entry);
+          hasChildren = children[0];
+        }
 
         done();
       }).catch((err) => {

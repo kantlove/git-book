@@ -1,16 +1,15 @@
 import { TypeHelper } from "../../helpers/_index";
-import { Entity } from "../entity/entity";
-import { Section } from "../section/section";
+import { Entity, Entry } from "../_index";
 
 export class RootEntry extends Entity {
-  private children: Entity[];
+  private children: Entry[];
 
-  constructor(children: Entity[]) {
+  constructor(children: Entry[]) {
     super();
     this.children = children ? children : [];
   }
 
-  public getChildren(): Entity[] {
+  public getChildren(): Entry[] {
     return this.children;
   }
 
@@ -34,7 +33,7 @@ export class RootEntry extends Entity {
   public static fromObject(obj: any): RootEntry {
     let children = TypeHelper.isArray(obj) ? obj : [obj];
     for (let i = 0; i < children.length; ++i) {
-      children[i] = Section.fromObject(children[i]);
+      children[i] = Entry.fromObject(children[i]);
     }
     return new RootEntry(children);
   }

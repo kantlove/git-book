@@ -1,4 +1,4 @@
-import {Entity} from "../entity/entity";
+import {Entity} from "../_index";
 
 export class Reference extends Entity {
   private targetId: string;
