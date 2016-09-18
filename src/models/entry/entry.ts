@@ -1,19 +1,33 @@
 import { TypeHelper } from "../../helpers/_index";
-import { Desc, Entity, ImageDesc, TextDesc} from "../_index";
+import { Desc, Entity, ImageDesc, TextDesc, TextModel } from "../_index";
+
+function descFromObject(obj: any): Desc {
+  try {
+    try {
+      return TextDesc.fromObject(obj);
+    }
+    catch (innerErr) {
+      return ImageDesc.fromObject(obj);
+    }
+  }
+  catch (e) {
+    throw e;
+  }
+}
 
 export class Entry extends Entity {
-  private title: string;
+  private title: TextModel;
   private description: Desc[];
   private children: Entry[];
 
-  constructor(title: string, description: Desc[], children: Entry[]) {
+  constructor(title: TextModel, description: Desc[], children: Entry[]) {
     super();
     this.title = title;
     this.description = description ? description : [];
     this.children = children ? children : [];
   }
 
-  public getTitle(): string {
+  public getTitle(): TextModel {
     return this.title;
   }
 
@@ -56,7 +70,7 @@ export class Entry extends Entity {
     let allDesc = [];
     if (obj.desc && TypeHelper.isArray(obj.desc)) {
       for (let desc of obj.desc) {
-        allDesc.push(Entry.descFromObject(desc));
+        allDesc.push(descFromObject(desc));
       }
     }
 
@@ -66,20 +80,6 @@ export class Entry extends Entity {
         children.push(Entry.fromObject(child));
       }
     }
-    return new Entry(obj.title, allDesc, children);
-  }
-
-  private static descFromObject(obj: any): Desc {
-    try {
-      try {
-        return TextDesc.fromObject(obj);
-      }
-      catch (innerErr) {
-        return ImageDesc.fromObject(obj);
-      }
-    }
-    catch (e) {
-      throw e;
-    }
+    return new Entry(TextModel.fromString(obj.title), allDesc, children);
   }
 }

@@ -1,7 +1,7 @@
 import {IdValidator} from "../_index";
 
 export class IdResolver {
-  private static map: string[];
+  private static map: string[] = [];
 
   /**
    * Transforms @id to be usable in HTML. Throws error

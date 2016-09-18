@@ -10,6 +10,8 @@
     "no-console": [false],
     "one-line": [true, "check-open-brace", "check-whitespace"],
     "member-ordering": [false],
-    "one-variable-per-declaration": false
+    "one-variable-per-declaration": false,
+    "interface-name": [true, "never-prefix"],
+    "max-line-length": [false]
   }
 }

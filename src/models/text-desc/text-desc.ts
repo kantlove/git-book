@@ -1,16 +1,17 @@
-import {Desc} from "../_index";
+import { Desc } from "../_index";
+import { TextModel } from "../_index";
 
 export class TextDesc extends Desc {
-  private text: string;
+  private text: TextModel;
   private style: TextStyle;
 
-  constructor(text: string, style: TextStyle) {
+  constructor(text: TextModel, style: TextStyle) {
     super();
     this.text = text;
     this.style = style ? style : TextStyle.Normal;
   }
 
-  public getText(): string {
+  public getText(): TextModel {
     return this.text;
   }
 
@@ -34,12 +35,12 @@ export class TextDesc extends Desc {
     if (!obj.text) {
       throw new Error("A text description must have <text>");
     }
-    return new TextDesc(obj.text, TextStyle.fromString(obj.style));
+    return new TextDesc(TextModel.fromString(obj.text), TextStyle.fromString(obj.style));
   }
 }
 
 export class TextStyle {
-  public static readonly Weak   = new TextStyle("w");
+  public static readonly Weak = new TextStyle("w");
   public static readonly Normal = new TextStyle("n");
   public static readonly Strong = new TextStyle("s");
 

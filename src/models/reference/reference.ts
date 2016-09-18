@@ -15,6 +15,6 @@ export class Reference extends Entity {
   }
 
   public toHtml(): string {
-    return `<a href=#${this.targetId}>${this.text}</a>`;
+    return `<a href="#${this.targetId}">${this.text}</a>`;
   }
 }

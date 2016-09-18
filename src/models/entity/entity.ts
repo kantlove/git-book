@@ -1,4 +1,6 @@
-export abstract class Entity {
+import {HtmlRepresentable} from "../../common/_index";
+
+export abstract class Entity implements HtmlRepresentable {
   public static fromObject(obj: any): Entity {
     throw "fromObject must be overriden";
   }

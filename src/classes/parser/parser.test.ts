@@ -60,12 +60,12 @@ describe("Parser", function () {
 
         let sect = children[0] as Entry;
         let sectChildren = sect.getChildren();
-        assert(sect.getTitle() === "section 1");
+        assert(sect.getTitle().getText() === "section 1");
         assert(sectChildren.length === 1);
         assert(sectChildren[0] instanceof Entry);
 
         let entry = sectChildren[0] as Entry;
-        assert(entry.getTitle() === "1st entry");
+        assert(entry.getTitle().getText() === "1st entry");
 
         done();
       }).catch((err) => {
@@ -97,12 +97,12 @@ describe("Parser", function () {
 
         let sect = children[0] as Entry;
         let sectChildren = sect.getChildren();
-        assert(sect.getTitle() === "section 1");
+        assert(sect.getTitle().getText() === "section 1");
         assert(sectChildren.length === 1);
         assert(sectChildren[0] instanceof Entry);
 
         let entry = sectChildren[0] as Entry;
-        assert(entry.getTitle() === "1st entry");
+        assert(entry.getTitle().getText() === "1st entry");
 
         let desc = entry.getDescription();
         assert(desc.length === 2);

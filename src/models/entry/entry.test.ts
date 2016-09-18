@@ -20,7 +20,7 @@ describe("Entry", function () {
       ],
     };
     let entry = Entry.fromObject(input), desc = entry.getDescription();
-    assert(entry.getTitle() === input.title);
+    assert(entry.getTitle().getText() === input.title);
     assert(desc.length === 3);
     assert(desc[0] instanceof TextDesc && desc[1] instanceof TextDesc);
     assert(desc[2] instanceof ImageDesc);

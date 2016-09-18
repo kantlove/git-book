@@ -1,4 +1,5 @@
 export * from "./entity/entity";
+export * from "./text-model/text-model";
 export * from "./entry/entry";
 export * from "./reference/reference";
 export * from "./root-entry/root-entry";
